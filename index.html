@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kişiselleştirilmiş dijital gazete" />
+  <title>SmartNewspaper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- AUTH OVERLAY -->
+  <div class="auth-overlay" id="auth-overlay">
+    <section class="auth-panel" aria-label="Giriş ve kayıt ekranı">
+      <div class="auth-hero">
+        <div class="auth-brand-block">
+          <p class="auth-logo">SmartNewspaper</p>
+          <div class="mood-selector">
+            <span>Şu anki modun:</span>
+            <button class="mood-button" type="button" aria-expanded="false" aria-controls="mood-options">
+              <span id="mood-current">Derin odak</span>
+              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            </button>
+            <div class="mood-options" id="mood-options" hidden>
+              <button type="button" data-mood-value="Derin odak">Derin odak</button>
+              <button type="button" data-mood-value="Hızlı özet">Hızlı özet</button>
+              <button type="button" data-mood-value="Sakin sabah">Sakin sabah</button>
+              <button type="button" data-mood-value="Akşam taraması">Akşam taraması</button>
+            </div>
+            <select id="mood-select" name="mood" class="sr-only" tabindex="-1" aria-hidden="true">
+              <option>Derin odak</option>
+              <option>Hızlı özet</option>
+              <option>Sakin sabah</option>
+              <option>Akşam taraması</option>
+            </select>
+          </div>
+        </div>
+        <div class="auth-hero-copy">
+          <span class="auth-edition">Kişisel Günlük Baskı · Akıllı Haber Seçkisi</span>
+          <h2>Haber akışını sana göre kur.</h2>
+          <p>İlgi alanlarını seç, günlük hedefini belirle, tekrar eden önemli haberleri tek yerden oku.</p>
+        </div>
+        <div class="auth-insight-board" aria-label="SmartNewspaper özellikleri">
+          <div class="insight-card insight-card-main">
+            <span>Canlı Baskı</span>
+            <strong>24</strong>
+            <small>saatlik haber ritmi</small>
+          </div>
+          <div class="insight-card">
+            <span>Akıllı Özet</span>
+            <strong>3 dk</strong>
+            <small>günlük hızlı okuma</small>
+          </div>
+          <div class="insight-card">
+            <span>Kişisel Akış</span>
+            <strong>8</strong>
+            <small>ilgi alanı seçkisi</small>
+          </div>
+          <div class="auth-news-ticker">
+            <span>SON DAKİKA</span>
+            <p>Tekrar eden başlıkları birleştirir, önemli gelişmeleri öne çıkarır.</p>
+          </div>
+        </div>
+      </div>
+      <div class="auth-card" id="auth-card">
+        <div class="auth-paper-heading" aria-hidden="true">
+          <span>Vol. 01</span>
+          <span>SmartNewspaper</span>
+          <span>Bugünün Baskısı</span>
+        </div>
+        <div class="auth-tabs">
+          <button type="button" data-auth-tab="login">Giriş</button>
+          <button class="active" type="button" data-auth-tab="register">Kayıt</button>
+        </div>
+        <form id="login-form" class="auth-form" hidden>
+          <label>KULLANICI ADI<input id="login-username" type="text" autocomplete="username" placeholder="kullanici_adin" required /></label>
+          <label class="password-field">ŞİFRE
+            <span class="password-wrap">
+              <input id="login-password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+              <button class="password-toggle" type="button" aria-label="Şifreyi göster" data-password-toggle="login-password"><i class="fa-regular fa-eye"></i></button>
+            </span>
+          </label>
+          <button type="submit">Giriş Yap</button>
+        </form>
+        <form id="register-form" class="auth-form">
+          <div class="onboarding-step-info">
+            <span class="kicker">ADIM 1 / 2</span>
+            <strong>Hesabını oluştur</strong>
+            <small>SmartNewspaper sana ait bir okuma ritmi kurmak için birkaç kısa tercih isteyecek.</small>
+          </div>
+          <label>KULLANICI ADI<input id="register-username" type="text" autocomplete="username" placeholder="ornek_okur" required /></label>
+          <label class="password-field">ŞİFRE
+            <span class="password-wrap">
+              <input id="register-password" type="password" autocomplete="new-password" placeholder="En az 4 karakter" minlength="4" required />
+              <button class="password-toggle" type="button" aria-label="Şifreyi göster" data-password-toggle="register-password"><i class="fa-regular fa-eye"></i></button>
+            </span>
+          </label>
+          <label class="password-field">ŞİFRE TEKRAR
+            <span class="password-wrap">
+              <input id="register-password-repeat" type="password" autocomplete="new-password" placeholder="Şifreni tekrar yaz" minlength="4" required />
+              <button class="password-toggle" type="button" aria-label="Şifreyi göster" data-password-toggle="register-password-repeat"><i class="fa-regular fa-eye"></i></button>
+            </span>
+          </label>
+          <button type="submit">Devam Et <span aria-hidden="true">➔</span></button>
+        </form>
+
+        <form id="onboarding-form" class="auth-form onboarding-form" hidden>
+          <div class="onboarding-step-info">
+            <span class="kicker">ADIM 2 / 2</span>
+            <strong>Seni biraz tanıyalım</strong>
+            <small>Bu tercihler, gazete arayüzünü ve haber akışını sana göre şekillendirecek.</small>
+          </div>
+
+          <div class="onboarding-group">
+            <span class="auth-label">
+              İlgi Alanları
+              <em><span id="onboarding-interest-counter" class="onboarding-counter">0/3</span> en az 3 seç</em>
+            </span>
+            <div class="onboarding-grid">
+              <label><input type="checkbox" name="interest" value="Bilim" /> <span>🧬</span> Bilim</label>
+              <label><input type="checkbox" name="interest" value="Kültür" /> <span>🎨</span> Kültür</label>
+              <label><input type="checkbox" name="interest" value="Teknoloji" /> <span>💻</span> Teknoloji</label>
+              <label><input type="checkbox" name="interest" value="Ekonomi" /> <span>📈</span> Ekonomi</label>
+              <label><input type="checkbox" name="interest" value="Türkiye" /> <span>TR</span> Türkiye</label>
+              <label><input type="checkbox" name="interest" value="Spor" /> <span>🏅</span> Spor</label>
+              <label><input type="checkbox" name="interest" value="Sağlık" /> <span>🩺</span> Sağlık</label>
+              <label><input type="checkbox" name="interest" value="Eğitim" /> <span>🎓</span> Eğitim</label>
+            </div>
+          </div>
+
+          <div class="onboarding-group">
+            <span class="auth-label">Okuma Zamanı <em>birden fazla seçebilirsin</em></span>
+            <div class="reading-time-grid">
+              <label class="chip-pill"><input type="checkbox" name="readingTime" value="morning" /> <span>☕</span> Sabah</label>
+              <label class="chip-pill"><input type="checkbox" name="readingTime" value="noon" /> <span>☀️</span> Öğle</label>
+              <label class="chip-pill"><input type="checkbox" name="readingTime" value="evening" /> <span>🌙</span> Akşam</label>
+              <label class="chip-pill"><input type="checkbox" name="readingTime" value="night" /> <span>🌌</span> Gece</label>
+            </div>
+          </div>
+
+          <div class="onboarding-group">
+            <span class="auth-label">Haberleri nasıl okumayı seversin?</span>
+            <div class="radio-card-row">
+              <label class="radio-card">
+                <input type="radio" name="contentDepth" value="short" />
+                <strong>Hızlı özet</strong>
+                <small>Kısa ve net haberler</small>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="contentDepth" value="mixed" checked />
+                <strong>Karışık</strong>
+                <small>Hem özet hem detay</small>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="contentDepth" value="detailed" />
+                <strong>Detaylı analiz</strong>
+                <small>Uzun, derin içerikler</small>
+              </label>
+            </div>
+          </div>
+
+          <label>Günlük haber hedefi<input id="onboarding-goal" type="number" min="1" max="100" step="1" value="10" required /></label>
+
+          <button type="button" id="onboarding-back" class="auth-back-btn" hidden><i class="fa-solid fa-arrow-left"></i> Geri</button>
+          <button type="submit" id="onboarding-submit" disabled>En az 3 konu seç (0/3)</button>
+        </form>
+        <p id="auth-status" class="form-status" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="app-shell">
+
+    <!-- STICKY HEADER WRAPPER -->
+    <div class="sticky-header">
+      <header class="topbar">
+        <div class="brand-lockup" aria-label="Kişisel Gazetem">
+          <div class="brand-mark"><i class="fa-regular fa-newspaper"></i></div>
+          <div>
+            <p class="kicker">Kişiselleştirilmiş Dijital Gazete</p>
+            <h1 id="brand-title">Kişisel Gazetem</h1>
+          </div>
+        </div>
+        <label class="search-box" for="global-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="global-search" type="search" placeholder="Haber, konu, kaynak veya yazar ara..." />
+        </label>
+        <div class="top-actions">
+          <button class="icon-btn" id="open-notifications" type="button" aria-label="Bildirimler" aria-expanded="false">
+            <i class="fa-regular fa-bell"></i>
+            <span class="activity-dot" id="notif-dot"></span>
+          </button>
+          <div class="notification-popover" id="notification-popover" hidden>
+            <div class="notification-popover-head">
+              <strong>Bildirimler</strong>
+              <button type="button" id="mark-notifications-read">Tümünü okundu yap</button>
+            </div>
+            <div id="notification-list" class="notification-list"></div>
+          </div>
+          <button class="profile-chip" id="open-profile" aria-label="Kullanıcı profili">
+            <span class="avatar">OK</span>
+            <span>
+              <strong>Kullanıcı</strong>
+              <small>Günlük okur</small>
+            </span>
+          </button>
+        </div>
+      </header>
+
+      <!-- EDITION STRIP -->
+      <div class="edition-strip-bar">
+        <div class="edition-strip-left">
+          <span id="edition-date-display" class="es-date"></span>
+          <span class="es-sep">·</span>
+          <span id="edition-interests-display" class="es-interests"></span>
+          <span class="es-sep">·</span>
+          <span id="edition-article-count" class="es-count">Yükleniyor...</span>
+        </div>
+        <div class="edition-strip-center">
+          <button class="etab active" data-page="feed"><i class="fa-solid fa-house"></i><span>Ana Akış</span></button>
+          <button class="etab" data-page="events"><i class="fa-solid fa-calendar-days"></i><span>Etkinlikler</span></button>
+          <button class="etab" data-page="calendar"><i class="fa-regular fa-calendar-check"></i><span>Takvim</span><em id="calendar-reminder-count">0</em></button>
+          <button class="etab" data-page="bookmarks"><i class="fa-solid fa-bookmark"></i><span>Kaydedilenler</span></button>
+          <button class="etab" data-page="export"><i class="fa-solid fa-file-pdf"></i><span>PDF</span></button>
+        </div>
+        <div class="edition-strip-right">
+          <span id="edition-goal-label" class="es-goal-label">0/20</span>
+          <div class="edition-goal-track">
+            <div class="edition-goal-fill" id="edition-goal-fill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
+
+      <!-- LEFT SIDEBAR -->
+      <aside class="left-sidebar" aria-label="Kişiselleştirme ve kategoriler">
+
+        <!-- Hidden section-list (JS compat) -->
+        <section class="nav-panel" style="display:none" aria-hidden="true">
+          <nav class="section-list">
+            <a class="active" href="#feed" data-page="feed">Ana Akış</a>
+            <a href="#events" data-page="events">Etkinlikler</a>
+            <a href="#bookmarks" data-page="bookmarks">Kaydedilenler</a>
+            <a href="#export" data-page="export">PDF / Baskı</a>
+          </nav>
+        </section>
+
+        <!-- For You Card -->
+        <div class="for-you-card">
+          <div class="fy-header">
+            <p class="kicker">Bugün Sana Özel</p>
+            <strong id="sidebar-user-name">...</strong>
+          </div>
+          
+          <div class="fy-section">
+            <div class="fy-section-title">İlgi Alanlarım</div>
+            <div id="interest-cloud-sidebar" class="interest-cloud-sidebar"></div>
+          </div>
+
+          <div class="fy-section">
+            <div class="fy-section-title">Okuma Tarzım</div>
+            <div id="persona-chips" class="persona-chips"></div>
+          </div>
+
+          <div class="fy-meta">
+            <span id="sidebar-date-display"></span>
+            <span id="sidebar-source-count"></span>
+          </div>
+          
+          <div id="add-interest-menu" class="add-interest-menu" hidden></div>
+        </div>
+
+        <!-- Category Nav -->
+        <div class="cat-nav-panel">
+          <div class="panel-title">Kategoriler</div>
+          <div id="category-nav-list" class="category-nav-list"></div>
+        </div>
+
+        <!-- Reading Goal -->
+        <div class="reading-goal-card">
+          <div class="rg-header">
+            <p class="kicker">Günlük Hedef</p>
+            <strong id="rg-fraction">0/20</strong>
+          </div>
+          <div class="rg-track">
+            <div class="rg-fill" id="rg-fill" style="width:0%"></div>
+          </div>
+          <span id="rg-label" class="rg-label">Okumaya başla</span>
+        </div>
+
+      </aside>
+
+      <!-- MAIN FEED -->
+      <main class="newspaper-feed" id="feed">
+
+        <!-- Reading Time Banner -->
+        <div class="reading-time-banner page-view" id="reading-time-banner" data-pages="feed" hidden>
+          <i class="fa-solid fa-clock"></i>
+          <span id="reading-time-banner-text"></span>
+        </div>
+
+        <!-- Personalized Banner -->
+        <div class="personalized-banner page-view" id="personalized-banner" data-pages="feed" hidden>
+          <div class="pb-left">
+            <p class="kicker" id="pb-greeting">Bugün sana özel</p>
+            <p id="pb-message">Haber akışın hazırlanıyor...</p>
+          </div>
+          <div class="pb-stats" id="pb-stats"></div>
+        </div>
+
+        <!-- Featured Article -->
+        <section class="featured-wrap page-view" id="featured-section" data-pages="feed" hidden>
+          <div class="featured-label">
+            <span class="kicker">Öne Çıkan Haber</span>
+            <span class="rel-chip" id="featured-rel-chip"></span>
+          </div>
+          <div id="featured-article-el" class="featured-article"></div>
+        </section>
+
+        <!-- Live News -->
+        <section class="live-news-panel page-view" id="last-24" data-pages="feed" aria-live="polite">
+          <div class="live-news-header">
+            <div>
+              <p class="kicker">Son 24 Saat</p>
+              <h2>Canlı Haber Akışı</h2>
+            </div>
+            <div class="live-timer">
+              <span id="live-count">01 / 05</span>
+              <div class="timer-track"><i id="timer-bar"></i></div>
+            </div>
+          </div>
+          <article id="live-news-card" class="live-news-card"></article>
+          <div id="live-news-dots" class="live-news-dots" aria-label="Son 24 saat haber göstergeleri"></div>
+        </section>
+
+        <!-- Search & Filter -->
+        <section class="tool-panel page-view" id="search-tools" data-pages="feed">
+          <div class="section-heading">
+            <h3>Arama ve Filtreleme</h3>
+            <div class="heading-actions">
+              <button id="save-search">Aramayı Kaydet</button>
+              <button id="clear-filters">Filtreleri Temizle</button>
+            </div>
+          </div>
+          <div class="filter-grid">
+            <label>Kategori<select id="category-filter"><option value="Tümü">Tümü</option></select></label>
+            <label>Kaynak<select id="source-filter"><option value="Tümü">Tümü</option></select></label>
+            <label>Okuma Durumu
+              <select id="status-filter">
+                <option value="Tümü">Tümü</option>
+                <option value="Okunmadı">Okunmadı</option>
+                <option value="Okundu">Okundu</option>
+              </select>
+            </label>
+            <label>Tarih
+              <select id="date-filter">
+                <option value="Tümü">Tümü</option>
+                <option value="Son 24 saat">Son 24 saat</option>
+                <option value="Bu hafta">Bu hafta</option>
+              </select>
+            </label>
+            <label>Sıralama
+              <select id="sort-filter">
+                <option value="relevance">İlgi puanı</option>
+                <option value="date">Yayın tarihi</option>
+                <option value="popularity">Popülerlik</option>
+              </select>
+            </label>
+          </div>
+          <div id="saved-search-list" class="saved-search-list"></div>
+        </section>
+
+        <!-- Integration Panel -->
+        <section class="tool-panel integration-panel page-view" data-pages="integrations">
+          <div class="section-heading">
+            <h3>API Entegrasyon Testi</h3>
+            <button id="refresh-integrations">Durumu Yenile</button>
+          </div>
+          <div id="integration-status" class="integration-status"></div>
+          <div class="integration-actions">
+            <button id="test-news-api"><i class="fa-solid fa-rss"></i> Haber API Test</button>
+            <button id="test-ai-api"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Test</button>
+          </div>
+          <div id="integration-result" class="integration-result">Key durumunu görmek için durumu yenile veya test butonlarını kullan.</div>
+        </section>
+
+        <!-- Article Feed -->
+        <section class="feed-section page-view" id="article-feed" data-pages="feed">
+          <div class="section-heading">
+            <h3 id="feed-heading">Sana Özel Haberler</h3>
+            <div class="heading-actions">
+              <button id="favorite-feed" class="favorite-feed-btn"><i class="fa-solid fa-star"></i> Favori Akışın</button>
+              <button id="sort-relevance">İlgi Puanına Göre Sırala</button>
+              <button id="toggle-category-view" class="view-toggle-btn">
+                <i class="fa-solid fa-layer-group"></i> Kategorilere Göre
+              </button>
+            </div>
+          </div>
+          <div id="recommended-grid" class="article-grid"></div>
+          <div id="article-pagination" class="pagination-controls" aria-label="Haber sayfaları"></div>
+          <p id="empty-state" class="empty-state">Seçilen filtrelere uygun haber bulunamadı. Filtreleri genişletebilir veya ilgi alanlarını güncelleyebilirsin.</p>
+        </section>
+
+        <!-- Events Page -->
+        <section class="split-news page-view" data-pages="events">
+          <div class="feed-section announcements page-view" id="events" data-pages="events">
+            <div class="section-heading"><h3>Biletix Etkinlikleri</h3></div>
+            <div class="event-filter-bar">
+              <label>Şehir
+                <select id="event-city-filter">
+                  <option value="ISTANBUL">İstanbul</option>
+                  <option value="ANKARA">Ankara</option>
+                  <option value="IZMIR">İzmir</option>
+                  <option value="BURSA">Bursa</option>
+                  <option value="ANTALYA">Antalya</option>
+                  <option value="ADANA">Adana</option>
+                  <option value="TURKIYE">Türkiye</option>
+                </select>
+              </label>
+              <label>Etkinlik türü
+                <select id="event-type-filter">
+                  <option value="Tümü">Tümü</option>
+                  <option value="Müzik">Müzik</option>
+                  <option value="Sahne">Sahne</option>
+                  <option value="Spor">Spor</option>
+                  <option value="Aile">Aile</option>
+                  <option value="Eğitim">Eğitim</option>
+                  <option value="Etkinlik">Etkinlik</option>
+                </select>
+              </label>
+            </div>
+            <div id="brief-list" class="announcement-list"></div>
+          </div>
+        </section>
+
+        <!-- Bookmarks Page -->
+        <section class="feed-section page-view" id="bookmarks" data-pages="bookmarks">
+          <div class="section-heading"><h3>Kaydedilenler ve Okuma Durumu</h3></div>
+          <div id="bookmark-list" class="bookmark-list"></div>
+        </section>
+
+        <!-- Calendar Page -->
+        <section class="feed-section calendar-page page-view" id="calendar-page" data-pages="calendar">
+          <div class="section-heading"><h3>Kişisel Takvim</h3></div>
+          <div class="edition-calendar-popover edition-calendar-page" id="edition-calendar-popover">
+            <div class="calendar-head">
+              <strong id="calendar-month-label">Mayıs 2026</strong>
+              <small>Kişisel okuma ve etkinlik takvimi</small>
+            </div>
+            <div class="calendar-weekdays">
+              <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+            </div>
+            <div class="calendar-grid" id="edition-calendar-grid"></div>
+            <div class="calendar-legend">
+              <span><i class="legend-dot is-today"></i> Bugün</span>
+              <span><i class="legend-dot is-reminder"></i> Hatırlatıcı</span>
+              <span><i class="legend-dot is-reading"></i> Okuma vakti</span>
+            </div>
+            <div class="calendar-personalize">
+              <label>Etkinlik Saati
+                <input id="calendar-time-input" type="time" value="09:00" />
+              </label>
+              <label>Kişisel hatırlatıcı
+                <input id="calendar-note-input" type="text" placeholder="Örn. Konser biletini kontrol et" />
+              </label>
+              <button type="button" id="calendar-save-note">Güne ekle</button>
+            </div>
+            <div id="calendar-agenda" class="calendar-agenda"></div>
+          </div>
+        </section>
+
+        <!-- Topic Page -->
+        <section class="feed-section topic-workspace page-view" id="topic-page" data-pages="topic">
+          <div class="section-heading">
+            <h3 id="topic-title">Konu Detayı</h3>
+            <button id="topic-back" type="button" class="topic-back-btn"><i class="fa-solid fa-arrow-left"></i> Akışa Dön</button>
+          </div>
+          <div id="topic-summary" class="topic-summary"></div>
+          <div id="topic-related" class="topic-related"></div>
+        </section>
+
+        <!-- Export Page -->
+        <section class="feed-section export-workspace page-view" id="export" data-pages="export">
+          <div class="section-heading">
+            <h3>PDF ve Baskı Önizleme</h3>
+            <button id="print-edition"><i class="fa-solid fa-print"></i> Yazdır</button>
+          </div>
+          <div class="export-layout">
+            <div class="export-options">
+              <label><input type="radio" name="layout" value="a4" checked /> A4 klasik gazete</label>
+              <label><input type="radio" name="layout" value="tabloid" /> Tabloid geniş sayfa</label>
+              <label><input type="radio" name="layout" value="booklet" /> Kitapçık düzeni</label>
+              <div id="export-article-list" class="export-article-list"></div>
+              <button id="download-pdf"><i class="fa-solid fa-download"></i> PDF İndir</button>
+            </div>
+            <div class="print-preview" id="print-preview">
+              <span>Sayfa Önizleme</span>
+              <strong>Kişisel Gazetem</strong>
+              <p>Seçtiğin haberler, kaynak bilgileri, yayın zamanı ve kaydedilen içerikler baskıya hazır düzende gösterilir.</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="right-sidebar" aria-label="Gündem ve okuma istatistikleri">
+        <section class="side-card">
+          <div class="section-heading compact"><h3>Öne Çıkan Konular</h3></div>
+          <div id="headline-list" class="event-list"></div>
+        </section>
+        <section class="side-card">
+          <div class="section-heading compact"><h3>Okuma İstatistikleri</h3></div>
+          <div class="stats-grid" id="reading-stats"></div>
+          <div class="category-chart" id="category-chart"></div>
+        </section>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ARTICLE DETAIL READER -->
+  <div class="reader-overlay" id="article-detail" hidden>
+    <div class="reader-backdrop" id="reader-backdrop"></div>
+    <section class="reader-panel" role="dialog" aria-modal="true" aria-label="Haber okuma ekranı">
+      <header class="reader-header">
+        <div>
+          <p class="kicker">Haber Okuma Ekranı</p>
+          <h2>Haber Detayı</h2>
+        </div>
+        <button id="close-detail" class="reader-close" aria-label="Haber okuma ekranını kapat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+      <article id="article-detail-content" class="article-detail-content"></article>
+    </section>
+  </div>
+
+  <!-- PROFILE PANEL -->
+  <div class="reader-overlay" id="profile-detail" hidden>
+    <div class="reader-backdrop" id="profile-backdrop"></div>
+    <section class="reader-panel profile-panel" role="dialog" aria-modal="true" aria-label="Kullanıcı profili">
+      <header class="reader-header">
+        <div>
+          <p class="kicker">Kullanıcı Profili</p>
+          <h2>Profil ve Tercihler</h2>
+        </div>
+        <button id="close-profile" class="reader-close" aria-label="Kullanıcı profilini kapat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+      <form id="profile-form" class="profile-form profile-form-dialog">
+        <div class="profile-photo-row">
+          <div class="avatar avatar-preview" id="profile-avatar-preview">OK</div>
+          <label>Profil resmi
+            <input id="profile-avatar-input" type="file" accept="image/*" />
+            <small>Yüklediğin görsel sağ üstte profil fotoğrafı olarak görünür.</small>
+          </label>
+        </div>
+        <label>Ad Soyad<input id="profile-name" type="text" autocomplete="name" required /></label>
+        <label>Gazete başlığı
+          <select id="newspaper-title-mode">
+            <option value="personalized">İsmimle göster</option>
+            <option value="classic">Kişisel Gazetem</option>
+          </select>
+          <small id="newspaper-title-preview">Samed'in Gazetesi</small>
+        </label>
+        <label>Dil
+          <select id="profile-language">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <div class="preference-list" id="interest-list">
+          <label><input type="checkbox" value="Teknoloji" /> Teknoloji</label>
+          <label><input type="checkbox" value="Bilim" /> Bilim</label>
+          <label><input type="checkbox" value="Dünya" /> Dünya</label>
+          <label><input type="checkbox" value="Gündem" /> Gündem</label>
+          <label><input type="checkbox" value="Türkiye" /> Türkiye</label>
+          <label><input type="checkbox" value="Ekonomi" /> Ekonomi</label>
+          <label><input type="checkbox" value="Kültür" /> Kültür</label>
+          <label><input type="checkbox" value="Spor" /> Spor</label>
+        </div>
+        <div class="onboarding-group">
+          <span class="auth-label">Okuma vakitlerin</span>
+          <div class="chip-pill-list" id="profile-reading-times">
+            <label class="chip-pill"><input type="checkbox" name="readingTime" value="morning" /> <i class="fa-solid fa-mug-saucer"></i> Sabah</label>
+            <label class="chip-pill"><input type="checkbox" name="readingTime" value="noon" /> <i class="fa-solid fa-sun"></i> Öğle</label>
+            <label class="chip-pill"><input type="checkbox" name="readingTime" value="evening" /> <i class="fa-solid fa-cloud-sun"></i> Akşam</label>
+            <label class="chip-pill"><input type="checkbox" name="readingTime" value="night" /> <i class="fa-solid fa-moon"></i> Gece</label>
+          </div>
+        </div>
+        <div class="onboarding-group">
+          <span class="auth-label">İçerik derinliği</span>
+          <div class="radio-card-row" id="profile-content-depth">
+            <label class="radio-card">
+              <input type="radio" name="contentDepth" value="short" />
+              <strong>Hızlı özet</strong>
+              <small>Kısa kart özetleri</small>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="contentDepth" value="mixed" />
+              <strong>Karışık</strong>
+              <small>Hem özet hem detay</small>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="contentDepth" value="detailed" />
+              <strong>Detaylı</strong>
+              <small>Uzun içerikler</small>
+            </label>
+          </div>
+        </div>
+        <label class="toggle-row"><input id="dark-mode-toggle" type="checkbox" /> Koyu mod</label>
+        <label class="toggle-row"><input id="notification-toggle" type="checkbox" /> Kritik duyuru bildirimi</label>
+        <label class="range-row">Yazı boyutu <span id="font-size-value">100%</span><input id="font-size-range" type="range" min="90" max="120" step="5" /></label>
+        <label class="range-row">Günlük okuma hedefi<input id="reading-goal-input" type="number" min="1" max="200" step="1" /></label>
+        <div class="profile-actions">
+          <button type="submit">Kaydet</button>
+          <button type="button" id="reset-preferences">Sıfırla</button>
+          <button type="button" id="logout-button" class="logout-button">Çıkış Yap</button>
+        </div>
+        <p id="profile-status" class="form-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
